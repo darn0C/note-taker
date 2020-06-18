@@ -1,12 +1,20 @@
-import React from "react";
+// IMPORT STATEMENTS //
+
+import React, {useState} from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import Popper from "@material-ui/core/Popper";
 import Header from "./Header";
 import Note from "./Note";
 
+// REACT COMPONENT FUNCTION //
+
 function App() {
+
+// MATERIAL UI STYLING //
 
     const useStyles = makeStyles((theme) => ({
 
@@ -27,22 +35,62 @@ function App() {
 
     }))
 
+// MATERIAL UI STYLE HOOKS //
+
     const classes = useStyles()
+
+// REACT HOOKS //
+
+    const [isMenuOpen,setIsMenuOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(false);
+
+// COMPONENT FUNCTIONS //
+
+    function handleMenu(event) {
+
+        setAnchorEl(event.currentTarget)
+        if (isMenuOpen === false) {
+            setIsMenuOpen(true)
+        } else if (isMenuOpen === true) {
+            setIsMenuOpen(false)
+        }
+    }
+
+// RETURN STATEMENT //
 
     return (
 
+// ROOT COMPONENT //
+
         <Grid container direction="column" className={classes.root}>
+
+            {/* HEADER COMPONENT */}
+
             <Header/>
+
+            {/* BUTTON COMPONENT */}
+
             <Grid container direction="column" justify="flex-start" alignItems="center">
-                <IconButton className={classes.addButton}>
-                    <AddIcon/>
+                <IconButton onClick={handleMenu} className={classes.addButton}>
+                    {isMenuOpen ? <RemoveIcon/> : <AddIcon/>}
                 </IconButton>
+                <Popper open={isMenuOpen} anchorEl={anchorEl}>
+                    <div>
+                        <h2>Hello World</h2>
+                    </div>
+                </Popper>
             </Grid>
+
+            {/* GENERATED NOTES */}
+
             <Note/>
+
         </Grid>
 
     )
 
 }
+
+// EXPORT STATEMENT //
 
 export default App
