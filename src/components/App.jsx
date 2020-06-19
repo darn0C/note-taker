@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Popper from "@material-ui/core/Popper";
 import Header from "./Header";
+import CreateNote from "./CreateNote";
 import Note from "./Note";
 
 // REACT COMPONENT FUNCTION //
@@ -20,6 +21,7 @@ function App() {
 
         root: {
             height: "100vh",
+            width: "100%",
             backgroundColor: "#ddf3f5",
             backgroundImage: "url(https://www.transparenttextures.com/patterns/always-grey.png)",
             "& .MuiIconButton-root:hover": {
@@ -27,10 +29,22 @@ function App() {
                 color: "#204051"
             }
         },
+        headerSection:{
+            height: "7%"
+        },
+        menuSection:{
+            backgroundColor: "black",
+            height: "33%"
+        },
         addButton: {
             marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(1),
             backgroundColor: "#eebb4d",
             color: "#204051",
+        },
+        noteSection: {
+            backgroundColor: "gray",
+            height: "60%"
         }
 
     }))
@@ -41,7 +55,7 @@ function App() {
 
 // REACT HOOKS //
 
-    const [isMenuOpen,setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
 
 // COMPONENT FUNCTIONS //
@@ -65,25 +79,34 @@ function App() {
         <Grid container direction="column" className={classes.root}>
 
             {/* HEADER COMPONENT */}
+            <Grid container className={classes.headerSection}>
 
-            <Header/>
+                <Header/>
 
-            {/* BUTTON COMPONENT */}
+            </Grid>
+            {/* MENU COMPONENT */}
 
-            <Grid container direction="column" justify="flex-start" alignItems="center">
+            <Grid container direction="column" justify="flex-start" alignItems="center" className={classes.menuSection}>
+
                 <IconButton onClick={handleMenu} className={classes.addButton}>
                     {isMenuOpen ? <RemoveIcon/> : <AddIcon/>}
                 </IconButton>
+
                 <Popper open={isMenuOpen} anchorEl={anchorEl}>
                     <div>
-                        <h2>Hello World</h2>
+                        <CreateNote/>
                     </div>
                 </Popper>
+
             </Grid>
 
             {/* GENERATED NOTES */}
 
-            <Note/>
+            <Grid container direction="column" className={classes.noteSection}>
+
+                <Note/>
+
+            </Grid>
 
         </Grid>
 
