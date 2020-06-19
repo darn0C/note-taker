@@ -21,7 +21,6 @@ function App() {
 
         root: {
             height: "100vh",
-            width: "100%",
             backgroundColor: "#ddf3f5",
             backgroundImage: "url(https://www.transparenttextures.com/patterns/always-grey.png)",
             "& .MuiIconButton-root:hover": {
@@ -33,7 +32,6 @@ function App() {
             height: "7%"
         },
         menuSection:{
-            backgroundColor: "black",
             height: "33%"
         },
         addButton: {
@@ -43,8 +41,8 @@ function App() {
             color: "#204051",
         },
         noteSection: {
-            backgroundColor: "gray",
-            height: "60%"
+            display: "flex",
+            flexDirection: "row"
         }
 
     }))
@@ -57,6 +55,7 @@ function App() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
+    const [notes, setNotes] = useState([]);
 
 // COMPONENT FUNCTIONS //
 
@@ -68,6 +67,22 @@ function App() {
         } else if (isMenuOpen === true) {
             setIsMenuOpen(false)
         }
+    }
+
+    function addNote (newNote) {
+
+        setNotes(prevNotes => {
+            return [...prevNotes, newNote]
+        })
+
+    }
+
+    function deleteNote (id) {
+        setNotes(prevNotes => {
+            return prevNotes.filter((noteItem,index) => {
+                return index !== id;
+            })
+        })
     }
 
 // RETURN STATEMENT //
@@ -94,7 +109,7 @@ function App() {
 
                 <Popper open={isMenuOpen} anchorEl={anchorEl}>
                     <div>
-                        <CreateNote/>
+                        <CreateNote onAdd={addNote}/>
                     </div>
                 </Popper>
 
@@ -104,7 +119,17 @@ function App() {
 
             <Grid container direction="column" className={classes.noteSection}>
 
-                <Note/>
+                {notes.map((noteItem,index) => {
+                    return (
+                        <Note
+                            key={index}
+                            id={index}
+                            title={noteItem.title}
+                            content={noteItem.content}
+                            onDelete={deleteNote}
+                        />
+                    )
+                })}
 
             </Grid>
 

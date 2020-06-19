@@ -1,43 +1,56 @@
 import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
-function Note() {
+function Note(props) {
 
     const useStyles = makeStyles((theme) => ({
 
         noteSurface:{
             backgroundColor: "#e0dede",
             margin: theme.spacing(2),
-            height: "150px",
-            width: "250px"
+            width: "250px",
         },
         noteTitle:{
-            paddingTop: theme.spacing(1),
+            marginTop: "0px",
+            marginBottom: theme.spacing(1),
             color: "#07031a",
-            fontWeight: "700"
+            fontWeight: "700",
+            whiteSpace: "pre-wrap",
+            wordWrap: "break-word",
+            textAlign: "center"
         },
         noteContent:{
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(1),
+            fontSize: "20px",
             color: "#3b6978",
-            lineHeight: "1"
+            whiteSpace: "pre-wrap",
+            wordWrap: "break-word",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+        },
+        deleteButton:{
+            color: "#917430",
+            position: "relative",
+            float: "right"
         }
 
     }))
 
     const classes = useStyles()
 
+    function deleteNote () {
+        props.onDelete(props.id)
+    }
+
     return (
 
         <Paper elevation={9} className={classes.noteSurface}>
-            <Typography align="center" component="h1" variant="h5" className={classes.noteTitle}>
-                Appointment
-            </Typography>
-            <Typography align="left" component="h1" variant="h6" className={classes.noteContent}>
-                Go to the doctor in Street Av. at 13:00
-            </Typography>
+            <h1 className={classes.noteTitle}>{props.title}</h1>
+            <p className={classes.noteContent}>{props.content}</p>
+            <Button onClick={deleteNote} className={classes.deleteButton}>Delete</Button>
         </Paper>
 
     )
